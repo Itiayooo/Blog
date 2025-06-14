@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://kit.fontawesome.com/08c5df3378.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: white;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        nav {
+            width: 100%;
+            background: #f7f7f7a4;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid #18181857;
+            /* box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.05); */
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: #010000;
+            z-index: 10;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+            /* margin-top: 120px; */
+            flex-wrap: wrap;
+        }
+
+        .holder {
+            background: #f7f7f7a4;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            border: 1px solid rgb(77, 73, 73);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            /* box-shadow: 0 0 10px rgba(19, 18, 18, 0.8); */
+            /* border: 2px solid black; */
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #181818;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            background: rgba(210, 206, 206, 0.253);
+            color: #181818;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        #displayHere {
+            margin-top: 10px;
+            font-size: 1rem;
+            text-align: center;
+            color: #181818;
+        }
+
+        .password-holder {
+            position: relative;
+            display: flex;
+        }
+
+        #password {
+            width: 100%;
+            position: relative;
+        }
+
+
+        .icon-holder {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            width: 15%;
+            background-color: rgb(0, 0, 0);
+        }
+
+
+        .side-text {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #181818;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="holder">
+            <h1>Login</h1>
+            <input type="text" id="userName" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="userLogin()">Login</button>
+            <div style="color: #181818; margin: auto;" id="signUpRedirect">
+                Don't have an account?
+                <span onclick="window.location.href='index.html'"
+                    style="text-decoration: underline; cursor: pointer;">Sign up</span>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
+
+<script>
+
+    function userLogin() {
+        let username = document.getElementById('userName').value.trim();
+        let password = document.getElementById('password').value.trim();
+        let display = document.getElementById('signUpRedirect')
+
+        let users = JSON.parse(localStorage.getItem('allUsers')) || [];
+        let existingUser = users.find(user => user.userName === username);
+        console.log(users)
+        console.log(existingUser);
+        
+
+        if (!username || !password) {
+            alert('All fields are mandatory');
+        } else if (!existingUser) {
+            alert('User does not exist');
+            return display.style.display = 'block'
+        } else if (existingUser.password !== password) {
+            alert('Incorrect username or password');
+        } else {
+            alert('Login successful');
+            localStorage.setItem('currentUser', JSON.stringify(existingUser));
+            window.location.href = 'Dashboard.html'
+        }
+    }
+
+
+
+
+
+
+</script>

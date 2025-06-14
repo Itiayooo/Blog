@@ -1,0 +1,472 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+/* nav {
+    height: 13vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background: #f7f7f7a4;
+    z-index: 2;
+    border-bottom: 2px solid #181818;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+    font-family: 'Segoe UI', sans-serif;
+    /* filter: brightness(0.8); */
+} */
+
+/* nav div{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+nav div i{
+    font-size: 20px;
+    border: 2px solid #181818;
+    padding: 10px;
+    border-radius: 100%;
+} */
+
+/* nav div h1{
+    font-family: 'Twitter Chirp', sans-serif;
+    font-size: 22px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 50px;
+} */
+
+.nav-button {
+    color: white;
+    background-color: #181818;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 15px;
+}
+
+.nav-button:hover {
+    cursor: pointer;
+    filter: brightness(1.85);
+}
+
+h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #181818;
+}
+
+.main-content {
+    /* margin-top: 75px; */
+    display: flex;
+}
+
+.main-content-i {
+    height: 100vh;
+    width: 25%;
+    background-color: white;
+    /* background: #f7f7f7a4); */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 2px solid #181818;
+    background-color: #f7f7f7a4;
+    /* padding: 10px 0px; */
+}
+
+.column-1-header{
+    margin: auto;
+    display: flex;
+    border: 2px solid #181818;
+    padding: 10px 45px;
+    border-radius: 40px;
+    align-items: center;
+    /* background-color: firebrick; */
+}
+
+.column-1-header i{
+    font-size: 20px;
+    border: 2px solid #181818;
+    padding: 8px 12px;
+    border-radius: 100%;
+}
+
+/* .column-1-header div{
+
+} */
+
+/* #mainText{
+    font-size: 20px;
+} */
+
+.main-content-i-content-i {
+    margin: auto;
+    border: 2px solid #181818;
+    width: fit-content;
+    padding: 35px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    /* background-color: darkblue; */
+    justify-content: space-around;
+}
+
+.icons-text-holder {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px 20px 10px 10px;
+    border-radius: 30px;
+    background: #f7f7f7a4;
+    border: 1px solid #181818;
+
+}
+
+.icons-text-holder:hover {
+    cursor: pointer;
+    filter: brightness(0.8);
+    
+}
+
+.icons-text-holder svg {
+    height: 25px;
+    width: 25px;
+    fill: #181818;
+}
+
+.icons-text-holder span {
+    font-size: 18px;
+    color: #181818;
+    font-family: 'Twitter Chirp', sans-serif;
+}
+
+.section-i-button {
+    color: #f7f7f7a4;
+    background: #181818;
+    border: none;
+    outline: none;
+
+    padding: 12px 80px;
+    border-radius: 25px;
+    font-family: 'Twitter Chirp', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.section-i-ultimate {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    border: 1px solid #181818;
+    padding: 3px;
+    padding-top: 15px;
+    border-radius: 35px;
+    position: relative;
+}
+
+.section-i-ultimate-i {
+    display: flex;
+    gap: 13px;
+}
+
+.profile-photo {
+    border-radius: 100%;
+    height: 30px;
+    width: auto;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.profile-photo-post{
+    border-radius: 100%;
+    height: 30px;
+    width: auto;
+    margin-left: 7px;
+}
+
+.names{
+    padding-left: 30px;
+    margin-top: 8px;
+    
+}
+
+.display-name {
+    font-family: 'Twitter Chirp', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #181818;
+    line-height: 0;
+}
+
+.username {
+    font-family: 'Twitter Chirp', sans-serif;
+    font-size: 14px;
+    font-weight: 550;
+    font-style: oblique;
+    color: #3d3d3d;
+    line-height: 0.1;
+}
+
+.ellipsis {
+    color: rgb(0, 0, 0);
+    padding-right: 5px;
+}
+
+.ellipsis:hover{
+    cursor: pointer;
+}
+.main-content-ii {
+    height: 100vh;
+    width: 50%;
+    background: #f7f7f7a4;
+    position: relative;
+    border-left: 2px solid #181818;
+    border-right: 2px solid #181818;
+    overflow-y: scroll;
+}
+
+.main-content-ii::-webkit-scrollbar{
+    display: none;
+}
+
+.column-ii-nav{
+    margin-top: 23px;
+    width: 100%;
+    height: 10%;
+    background-color: #f7f7f7;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.column-ii-nav input{
+    margin: auto;
+    width: 90%;
+    height: 70%;
+    border-radius: 30px;
+    border: 1px solid #181818;
+    padding-left: 7%;
+    padding-right: 3%;
+    display: flex;
+    background-image: url(magnifying-glass-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 15px center;
+}
+
+.bs-modal{
+    color: #181818;
+}
+
+.modal-input{
+    width: 100%;
+    height: 100px;
+    border: 1.5px solid #181818;
+    border-radius: 7.5px;
+    outline: none;
+    font-family: 'Twitter Chirp', sans-serif;
+}
+
+.modal-post-button{
+    background-color: #181818;
+    border: 1px solid #181818;
+    color: #f7f7f7a4;
+}
+
+.center-texts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    /* background-color: darkblue; */
+}
+
+.modal-button{
+    background-color: #181818;
+    color: white;
+    border: none;
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 15%;
+    right: 28%;
+    z-index: 5;
+}
+
+.modal-button:hover{
+    background-color: #191919;
+    cursor: pointer;
+    filter: brightness(2.0);
+}
+
+.plus-icon{
+
+}
+
+.center-text-i {
+    font-family: 'Twitter Chirp', sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    font-size: 25px;
+    font-weight: 600;
+    color: #181818;
+}
+
+.center-text-ii {
+    font-family: 'Twitter Chirp', sans-serif;    
+    font-size: 20px;
+    font-weight: 400;
+    color: #181818;
+}
+
+/* .post-modal{
+    width : 90%;
+    margin: auto;
+    border-radius: 20px;
+    background-color: #181818;
+    color: white;
+
+} */
+
+.posts-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.post{
+    position: relative;
+    border-top: 2px solid #181818;
+    border-bottom: 2px solid #181818;
+    display: flex;
+    align-items: center;
+}
+
+.profile-photo-holder{
+    position: absolute;
+    top: 5px;
+}
+
+.post-ii{
+    padding-left: 40px;
+}
+
+
+
+.post-text{
+    font-family: 'Twitter Chirp', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.1;
+}
+
+.like-buttons{
+    position: absolute;
+    top: 0.5px;
+    right: 15px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.bookmark-buttons{
+    position: absolute;
+    bottom: 25px;
+    right: 5px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+.post i{
+    color: #181818;
+    position: absolute;
+    font-size: 12px;
+    top: 2.5px;
+    right: 5px;
+}
+
+.post i:hover{
+    cursor: pointer;
+}
+
+.post-user{
+    font-size: 12px;
+    color: grey;
+    position: absolute;
+    top: 0px;
+}
+
+.post-text{
+    margin-top: 20px;  
+}
+
+
+.main-content-iii {
+    height: 100vh;
+    width: 25%;
+    background: #f7f7f7a4;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* justify-content: center; */
+}
+
+.main-content-iii nav{
+    display: flex;
+    position: sticky;
+    top: 0;
+    padding: 12px;
+}
+
+.messages-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 200px;
+    width: max-content;
+    /* border: 1px solid #181818; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.main-content-iii svg {
+    height: 150px;
+    width: auto;
+    fill: #181818;
+}
+
+.right-text-i {
+    font-family: 'Twitter Chirp', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #181818;
+}
+
+.right-text-ii {
+    font-family: 'Twitter Chirp', sans-serif;    
+    font-size: 15px;
+    font-weight: 400;
+    color: #181818;
+}

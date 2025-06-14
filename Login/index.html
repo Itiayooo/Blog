@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up</title>
+    <script src="https://kit.fontawesome.com/08c5df3378.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: white;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        nav {
+            width: 100%;
+            background: #f7f7f7a4;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid #18181857;
+            /* box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.05); */
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: #010000;
+            z-index: 10;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+            /* margin-top: 120px; */
+            flex-wrap: wrap;
+        }
+
+        .holder {
+            background: #f7f7f7a4;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            border: 1px solid rgb(77, 73, 73);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            /* box-shadow: 0 0 10px rgba(19, 18, 18, 0.8); */
+            /* border: 2px solid black; */
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #181818;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            background: rgba(210, 206, 206, 0.253);
+            color: #181818;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        #displayHere {
+            margin-top: 10px;
+            font-size: 1rem;
+            text-align: center;
+            color: #181818;
+        }
+
+        .password-holder {
+            position: relative;
+            display: flex;
+        }
+
+        #password {
+            width: 100%;
+            position: relative;
+        }
+
+
+        .icon-holder {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            width: 15%;
+            background-color: rgb(0, 0, 0);
+        }
+
+
+        .side-text {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #181818;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="holder">
+        <h1>Sign-Up</h1>
+        <div id="displayHere"></div>
+        <input type="text" id="firstName" placeholder="First Name">
+        <input type="text" id="lastName" placeholder="Last Name">
+        <input type="text" id="userName" placeholder="Username">
+        <input type="email" id="email" placeholder="Email address">
+        <div class="password-holder">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="iconDisplay()" type="button" class="icon-holder">
+                <div style="display: block;" id="icon-i-holder"><i class="fa-solid fa-eye"></i></div>
+                <div style="display: none;" id="icon-slash-holder"><i class="fa-solid fa-eye-slash"></i></div>
+            </button>
+        </div>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+        <button onclick="createAccount()">Create Account</button>
+        <p style="color: #181818; margin: auto;">
+            Already have an account?
+            <span class="login-link" onclick="window.location.href='login.html'"
+                style="color: #181818; cursor: pointer; text-decoration: underline;">Login</span>
+        </p>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    function createAccount() {
+
+        let firstName = document.getElementById('firstName').value.trim();
+        let lastName = document.getElementById('lastName').value.trim();
+        let userName = document.getElementById('userName').value.trim();
+        let email = document.getElementById('email').value.trim();
+        let password = document.getElementById('password').value.trim();
+        let confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+        if (!firstName || !lastName || !userName || !email || !password) {
+            alert('All Fields are Mandatory');
+        } else if (password.length < 8) {
+            alert('Password should contain at least 8 characters');
+        } else if (password !== confirmPassword) {
+            alert('Passwords do not Match');
+        } else {
+
+            let users = JSON.parse(localStorage.getItem('allUsers')) || [];
+
+            const userCredentials = {
+                firstName: firstName,
+                lastName: lastName,
+                userName: userName,
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword
+            };
+
+            let userExists = users.find(user =>
+                user.userName === userCredentials.userName || user.email === userCredentials.email
+            );
+
+
+            if (userExists) {
+                alert('Username or Email already exists!');
+            } else {
+                users.push(userCredentials);
+                localStorage.setItem('allUsers', JSON.stringify(users));
+                localStorage.setItem('displayName', JSON.stringify(firstName))
+                alert('Account Created Successfully');
+                window.location.href = 'login.html';
+            }
+        }
+    }
+
+
+    function iconDisplay() {
+
+        let iconi = document.getElementById('icon-i-holder')
+        let iconii = document.getElementById('icon-slash-holder')
+
+        if (iconi.style.display == 'block' && iconii.style.display == "none") {
+            iconi.style.display = 'none';
+            iconii.style.display = 'block';
+        } else {
+            iconi.style.display = 'block';
+            iconii.style.display = 'none';
+        }
+
+
+        let passwordd = document.getElementById('password')
+
+        if (passwordd.type == "password") {
+            passwordd.type = 'text'
+        } else if (passwordd.type == 'text') {
+            passwordd.type = 'password'
+        }
+
+    }
+
+
+
+</script>
