@@ -43,7 +43,7 @@ nav div i{
     margin-left: 50px;
 } */
 
-.nav-button {
+/* .logout-button {
     color: white;
     background-color: #181818;
     border: none;
@@ -51,10 +51,10 @@ nav div i{
     border-radius: 15px;
 }
 
-.nav-button:hover {
+.logout-button:hover {
     cursor: pointer;
     filter: brightness(1.85);
-}
+} */
 
 h1 {
     font-size: 1.8rem;
@@ -228,6 +228,7 @@ h1 {
 .ellipsis:hover{
     cursor: pointer;
 }
+
 .main-content-ii {
     height: 100vh;
     width: 50%;
@@ -360,6 +361,11 @@ h1 {
     align-items: center;
 }
 
+.user-display-name{
+    font-family: Twitter Chirp, sans-serif;
+    color: black;
+}
+
 .profile-photo-holder{
     position: absolute;
     top: 5px;
@@ -410,9 +416,18 @@ h1 {
 
 .post-user{
     font-size: 12px;
+    font-weight: 500;
     color: grey;
     position: absolute;
     top: 0px;
+}
+
+.post-user span{
+    font-family: 'Twitter Chirp', sans-serif;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-style: oblique;
 }
 
 .post-text{
@@ -435,6 +450,31 @@ h1 {
     position: sticky;
     top: 0;
     padding: 12px;
+}
+
+.ellipsis:focus + .logout-button {
+    display: block;
+}
+
+.logout-button {
+    color: white;
+    background-color: #181818;
+    border: none;
+    height: 50px;
+    width: 200px;
+    padding: 5px 10px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    margin-top: 12px;
+    position: absolute;
+    top: 50px;
+    left: 65px;
+    display: none;
+}
+
+.logout-button:hover {
+    cursor: pointer;
+    filter: brightness(1.85);
 }
 
 .messages-box {

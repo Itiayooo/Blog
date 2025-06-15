@@ -14,52 +14,57 @@ function logOut() {
 }
 
 let modal = document.getElementsByClassName('bs-modal')
-let successfulPosts = []
+// let successfulPosts = []
 
-function addPost() {
-    let userPost = document.getElementById('userPost');
-    let centerTexts = document.getElementById('centerTexts')
-    let postText = userPost.value.trim();
+// function addPost() {
+//     let userPost = document.getElementById('userPost');
+//     let centerTexts = document.getElementById('centerTexts')
+//     let postText = userPost.value.trim();
 
-    document.querySelector(".posts-container").innerHTML += `
-        <div class="post" id="post">
+//     if (postText === "") {
+//         alert('You cannot send an empty post')
+//         return
+//     }
 
-            <div class="profile-photo-holder">
-                <img class="profile-photo-post"
-                     src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
-            </div>
+//     document.querySelector(".posts-container").innerHTML += `
+//         <div class="post" id="post">
 
-            <div class="post-ii">
-                <p class="post-user">${userDisplayName}@${currentUser.userName}</p>
-                <p class="post-text">${userPost.value.trim()}</p>
+//             <div class="profile-photo-holder">
+//                 <img class="profile-photo-post"
+//                      src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
+//             </div>
 
-                <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-                    <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-                    <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-                </button>
+//             <div class="post-ii">
+//                 <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
+//                 <p class="post-text">${userPost.value.trim()}</p>
 
-                <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-                    <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-                    <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-                </button>
+//                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+//                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+//                     <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+//                 </button>
 
-                <i class="fa-solid fa-trash" onclick=deletePost()></i>
-            </div>
-        </div>`
+//                 <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+//                     <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+//                     <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+//                 </button>
+
+//                 <i class="fa-solid fa-trash" onclick=deletePost()></i>
+//             </div>
+//         </div>`
 
 
 
-    if (userPost !== '') {
-        centerTexts.style.display = "none"
-    } else {
-        centerTexts.style.display = "block"
-    }
+//     if (userPost !== '') {
+//         centerTexts.style.display = "none"
+//     } else {
+//         centerTexts.style.display = "block"
+//     }
 
-    userPost.value = ""
-    alert('Post Sent Successfully')
-    successfulPosts.push(postText);
+//     userPost.value = ""
+//     alert('Post Sent Successfully')
+//     successfulPosts.push(postText);
 
-}
+// }
 
 // function searchPosts() {
 //     let input = document.getElementById('searchBar').value.toLowerCase();
@@ -99,6 +104,53 @@ function addPost() {
 //     });
 // }
 
+let successfulPosts = [];
+
+function addPost() {
+    let userPost = document.getElementById('userPost');
+    let centerTexts = document.getElementById('centerTexts');
+    let postText = userPost.value.trim();
+
+    if (postText === "") {
+        alert('You cannot send an empty post');
+        return;
+    }
+
+    successfulPosts.push(postText);
+    let index = successfulPosts.length - 1;
+
+    document.querySelector(".posts-container").innerHTML += `
+        <div class="post" id="post-${index}">
+
+            <div class="profile-photo-holder">
+                <img class="profile-photo-post"
+                     src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
+            </div>
+
+            <div class="post-ii">
+                <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
+                <p class="post-text">${postText}</p>
+
+                <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+                    <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+                    <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+                </button>
+
+                <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+                    <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+                    <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+                </button>
+
+                <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+            </div>
+        </div>`;
+
+    centerTexts.style.display = "none";
+    userPost.value = "";
+    alert('Post Sent Successfully');
+}
+
+
 function searchPosts() {
     let input = document.getElementById('searchBar').value.toLowerCase();
     let container = document.querySelector(".posts-container");
@@ -117,7 +169,7 @@ function searchPosts() {
                 </div>
 
                 <div class="post-ii">
-                    <p class="post-user">${userDisplayName}@${currentUser.userName}</p>
+                    <p class="post-user">@${currentUser.userName}</p>
                     <p class="post-text">${text}</p>
 
                     <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
@@ -166,13 +218,22 @@ function toggleBookmark(button) {
 
 
 
-function deletePost() {
-    let post = document.getElementById('post')
-    let deleteConfirm = confirm("Are you sure you want to delete this post ? This action cannot be undone")
-    if (deleteConfirm) {
-        post.remove()
+// function deletePost() {
+//     let post = document.getElementById('post')
+//     let deleteConfirm = confirm("Are you sure you want to delete this post ? This action cannot be undone")
+//     if (deleteConfirm) {
+//         post.remove()
+//     }
+// }
+
+function deletePost(index) {
+    let confirmDelete = confirm("Are you sure you want to delete this post? This action cannot be undone");
+    if (confirmDelete) {
+        successfulPosts.splice(index, 1);
+        document.getElementById(`post-${index}`).remove();
     }
 }
+
 
 
 
