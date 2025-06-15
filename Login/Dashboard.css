@@ -449,11 +449,16 @@ h1 {
     display: flex;
     position: sticky;
     top: 0;
-    padding: 12px;
+    margin-left: 25px;
+    padding: 12px ;
 }
 
-.ellipsis:focus + .logout-button {
+/* .ellipsis:focus-within + .logout-button {
     display: block;
+} */
+
+.ellipsis-holder:focus-within .logout-button {
+  display: block;
 }
 
 .logout-button {
