@@ -32,7 +32,6 @@
             font-size: 1.5rem;
             font-weight: 600;
             border-bottom: 1px solid #18181857;
-            /* box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.05); */
             position: fixed;
             top: 0;
             left: 0;
@@ -46,7 +45,6 @@
             align-items: center;
             gap: 40px;
             width: 100%;
-            /* margin-top: 120px; */
             flex-wrap: wrap;
         }
 
@@ -60,8 +58,6 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            /* box-shadow: 0 0 10px rgba(19, 18, 18, 0.8); */
-            /* border: 2px solid black; */
         }
 
         h1 {
@@ -113,7 +109,6 @@
             position: relative;
         }
 
-
         .icon-holder {
             position: absolute;
             right: 0;
@@ -122,12 +117,23 @@
             background-color: rgb(0, 0, 0);
         }
 
-
         .side-text {
             font-size: 3rem;
             font-weight: 700;
             line-height: 1.1;
             color: #181818;
+        }
+
+        #emailFeedback {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            padding-left: 2px;
+            color: #000;
+            display: none;
+        }
+
+        #passwordNote{
+            display: none;
         }
     </style>
 </head>
@@ -140,13 +146,15 @@
         <input type="text" id="lastName" placeholder="Last Name">
         <input type="text" id="userName" placeholder="Username">
         <input type="email" id="email" placeholder="Email address">
-        <div class="password-holder">
-            <input type="password" id="password" placeholder="Password">
+        <small id="emailFeedback"></small>
+        <div class="password-holder">            
+            <input type="password" id="password" placeholder="Password" oninput="checkPasswordStrength()">
             <button onclick="iconDisplay()" type="button" class="icon-holder">
                 <div style="display: block;" id="icon-i-holder"><i class="fa-solid fa-eye"></i></div>
                 <div style="display: none;" id="icon-slash-holder"><i class="fa-solid fa-eye-slash"></i></div>
             </button>
         </div>
+        <small id="passwordNote" class="note-bad" style="font-size: 0.9rem;"></small>
         <input type="password" id="confirmPassword" placeholder="Confirm Password">
         <button onclick="createAccount()">Create Account</button>
         <p style="color: #181818; margin: auto;">
@@ -157,27 +165,38 @@
     </div>
 </body>
 
-</html>
-
 <script>
-
     function createAccount() {
-
         let firstName = document.getElementById('firstName').value.trim();
         let lastName = document.getElementById('lastName').value.trim();
         let userName = document.getElementById('userName').value.trim();
-        let email = document.getElementById('email').value.trim();
+        let emailInput = document.getElementById('email');
+        let email = emailInput.value.trim();
+        let emailFeedback = document.getElementById('emailFeedback');
         let password = document.getElementById('password').value.trim();
         let confirmPassword = document.getElementById('confirmPassword').value.trim();
+        // let passwordNote = document.getElementById('passwordNote')
+
+        let pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!pattern.test(email)) {
+            emailFeedback.style.color = 'red';
+            emailFeedback.textContent = 'Please enter a valid email address';
+            emailFeedback.style.display = 'block'
+            return;
+        } else {
+            emailFeedback.style.display = 'none'
+            // emailFeedback.style.color = 'green';
+            // emailFeedback.textContent = 'Valid email ';
+        }
 
         if (!firstName || !lastName || !userName || !email || !password) {
             alert('All Fields are Mandatory');
-        } else if (password.length < 8) {
-            alert('Password should contain at least 8 characters');
+        } else if (password.length < 8 || password.length > 20) {
+            alert('Password should contain 8–20 characters');
         } else if (password !== confirmPassword) {
             alert('Passwords do not Match');
         } else {
-
             let users = JSON.parse(localStorage.getItem('allUsers')) || [];
 
             const userCredentials = {
@@ -193,7 +212,6 @@
                 user.userName === userCredentials.userName || user.email === userCredentials.email
             );
 
-
             if (userExists) {
                 alert('Username or Email already exists!');
             } else {
@@ -206,11 +224,39 @@
         }
     }
 
+    function checkPasswordStrength() {
+    let pwd = document.getElementById('password').value.trim();
+    let note = document.getElementById('passwordNote');
+
+    let fullPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^\w\s]).{8,20}$/;
+    let hasUpper = /[A-Z]/;
+    let hasLower = /[a-z]/;
+    let hasNumber = /[0-9]/;
+    let hasSymbol = /[^\w\s]/;
+
+    if (fullPattern.test(pwd)) {
+        note.style.display = "none"
+    } else {
+        note.style.display = "block"
+        note.style.color = 'red';
+        note.className = 'note-bad';
+
+        if (!hasUpper.test(pwd)) {
+            note.textContent = 'Password must include an uppercase letter';
+        } else if (!hasLower.test(pwd)) {
+            note.textContent = 'Password must include a lowercase letter';
+        } else if (!hasNumber.test(pwd)) {
+            note.textContent = 'Password must include a number';
+        } else if(!hasSymbol.test(pwd)) {
+            note.textContent = 'Password must include a special character';
+        }
+    }
+}
+
 
     function iconDisplay() {
-
-        let iconi = document.getElementById('icon-i-holder')
-        let iconii = document.getElementById('icon-slash-holder')
+        let iconi = document.getElementById('icon-i-holder');
+        let iconii = document.getElementById('icon-slash-holder');
 
         if (iconi.style.display == 'block' && iconii.style.display == "none") {
             iconi.style.display = 'none';
@@ -220,17 +266,13 @@
             iconii.style.display = 'none';
         }
 
-
-        let passwordd = document.getElementById('password')
-
+        let passwordd = document.getElementById('password');
         if (passwordd.type == "password") {
-            passwordd.type = 'text'
+            passwordd.type = 'text';
         } else if (passwordd.type == 'text') {
-            passwordd.type = 'password'
+            passwordd.type = 'password';
         }
-
     }
-
-
-
 </script>
+
+</html>

@@ -23,13 +23,17 @@ function addPost() {
     let centerTexts = document.getElementById('centerTexts');
     let postText = userPost.value.trim();
 
-    if (postText === "") {
+    if (postText === "" && !selectedImageData) {
         alert('You cannot send an empty post');
         return;
     }
 
-    successfulPosts.push(postText);
+    successfulPosts.push({
+        content: postText,
+        imageUrl: selectedImageData
+    });
     let index = successfulPosts.length - 1;
+    let post = successfulPosts[index];
 
     document.querySelector(".posts-container").innerHTML += `
         <div class="post" id="post-${index}">
@@ -41,7 +45,10 @@ function addPost() {
 
             <div class="post-ii">
                 <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
-                <p class="post-text">${postText}</p>
+
+
+                <p class="post-text">${post.content}</p>
+                ${post.imageUrl ? `<img src="${post.imageUrl}" class="post-photo">` : ""}
 
                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
@@ -57,27 +64,62 @@ function addPost() {
             </div>
         </div>`;
 
-        // if (postText == "") {
-        //     centerTexts.style.display = "none";
-        // } else{
-        //     centerTexts.style.display = "block";
-        // }
+    // if (postText == "") {
+    //     centerTexts.style.display = "none";
+    // } else{
+    //     centerTexts.style.display = "block";
+    // }
 
     centerTexts.style.display = 'none'
     alert('Post Sent Successfully');
-    // localStorage.setItem('posts', JSON.stringify(successfulPosts));
+
+    userPost.value = "";
+
+    photoInput.value = "";
+    selectedImageData = "";
+    
 }
+
+let selectedImageData = "";
+
+let photoInput = document.getElementById('photoInput');
+
+photoInput.addEventListener('change', function () {
+    let selectedFile = photoInput.files[0];
+
+    if (!selectedFile) {
+        alert('Please add a file');
+        return;
+    }
+
+    if (!selectedFile.type.startsWith("image/")) {
+        alert("Only image files are allowed.");
+        return;
+    }
+
+    if (selectedFile.size < 10000) {
+        alert('Image file is too small.');
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+
+    reader.addEventListener('load', function (ev) {
+        selectedImageData = ev.target.result;
+    });
+});
 
 
 function searchPosts() {
     let input = document.getElementById('searchBar').value.toLowerCase();
     let container = document.querySelector(".posts-container");
 
-    
+
     let matchedPosts = successfulPosts.filter(text => text.toLowerCase().includes(input));
 
     container.innerHTML = "";
-    
+
     matchedPosts.forEach(text => {
         container.innerHTML += `
             <div class="post" id="post">
