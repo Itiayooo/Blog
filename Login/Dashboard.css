@@ -384,6 +384,13 @@ h1 {
     padding-left: 40px;
 }
 
+.posted-photo{
+    width: 570px;
+    /* height: fit-content; */
+    height: 400px;
+    /* object-fit: cover;
+    object-position: center; */
+}
 
 
 .post-text{

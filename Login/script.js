@@ -48,7 +48,7 @@ function addPost() {
 
 
                 <p class="post-text">${post.content}</p>
-                ${post.imageUrl ? `<img src="${post.imageUrl}" class="post-photo">` : ""}
+                ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
 
                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
