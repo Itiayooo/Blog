@@ -155,34 +155,44 @@
 
 <script>
 
-    function userLogin() {
-        let username = document.getElementById('userName').value.trim();
-        let password = document.getElementById('password').value.trim();
-        let display = document.getElementById('signUpRedirect')
+let loginBtn = document.querySelector('button[onclick="userLogin()"]');
+let originalText = loginBtn.textContent;
 
+function userLogin() {
+    let username = document.getElementById('userName').value.trim();
+    let password = document.getElementById('password').value.trim();
+    let display = document.getElementById('signUpRedirect');
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Logging in...';
+    loginBtn.style.filter = 'brightness(0.2)';
+
+    setTimeout(() => {
         let users = JSON.parse(localStorage.getItem('allUsers')) || [];
         let existingUser = users.find(user => user.userName === username);
-        console.log(users)
-        console.log(existingUser);
-        
 
         if (!username || !password) {
             alert('All fields are mandatory');
+            resetButton();
         } else if (!existingUser) {
             alert('User does not exist');
-            return display.style.display = 'block'
+            display.style.display = 'block';
+            resetButton();
         } else if (existingUser.password !== password) {
             alert('Incorrect username or password');
+            resetButton();
         } else {
             alert('Login successful');
             localStorage.setItem('currentUser', JSON.stringify(existingUser));
-            window.location.href = 'Dashboard.html'
+            window.location.href = 'Dashboard.html';
         }
-    }
+    }, 2000);
+}
 
-
-
-
-
+function resetButton() {
+    loginBtn.disabled = false;
+    loginBtn.textContent = originalText;
+    loginBtn.style.filter = 'brightness(1)';
+}
 
 </script>

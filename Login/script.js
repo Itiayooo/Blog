@@ -1,10 +1,30 @@
 let mainText = document.getElementById('mainText')
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || []
-let userDisplayName = JSON.parse(localStorage.getItem('displayName')) || []
-// let successfulPosts = JSON.parse(localStorage.getItem('posts')) || [];
+// let userDisplayName = JSON.parse(localStorage.getItem('displayName')) || []
+
+if (currentUser?.profilePhoto) {
+    document.querySelectorAll(".profile-photo-post").forEach(img => {
+        img.src = currentUser.profilePhoto;
+    });
+
+    let topPhoto = document.querySelector('.top-profile-photo');
+    if (topPhoto) {
+        topPhoto.innerHTML = `
+            <img class="profile-photo" src="${currentUser.profilePhoto}" alt="">
+        `;
+    }
+}
+
+if (currentUser?.profilePhoto) {
+    document.querySelectorAll(".profile-photo-post").forEach(img => {
+        img.src = currentUser.profilePhoto;
+    });
+}
+
 
 if (currentUser) {
     mainText.innerHTML = `${currentUser.userName}`
+    document.getElementById('displayName').innerHTML = currentUser.firstName.toUpperCase();
 }
 
 function logOut() {
@@ -12,26 +32,100 @@ function logOut() {
     if (confirmLogOut) {
         window.location.href = 'login.html'
     }
+    // localStorage.removeItem('displayName');
 }
 
 let modal = document.getElementsByClassName('bs-modal')
 
 let successfulPosts = [];
 
+
+// function addPost() {
+//     let userPost = document.getElementById('userPost');
+//     let centerTexts = document.getElementById('centerTexts');
+//     let postText = userPost.value.trim();
+
+//     if (postText === "" && !selectedPostImageData) {
+//         alert('You cannot send an empty post');
+//         return;
+//     }
+
+//     successfulPosts.push({
+//     content: postText,
+//     imageUrl: selectedPostImageData
+//     });
+
+
+//     let index = successfulPosts.length - 1;
+//     let post = successfulPosts[index];
+
+
+//     document.querySelector(".posts-container").innerHTML += `
+//         <div class="post" id="post-${index}">
+
+//             <div class="profile-photo-holder">
+//                 <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+//                     src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+//                         alt="">
+//             </div>
+
+//             <div class="post-ii">
+//                 <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
+
+
+//                 <p class="post-text">${post.content}</p>
+//                 ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
+
+//                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+//                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+//                     <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+//                 </button>
+
+//                 <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+//                     <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+//                     <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+//                 </button>
+
+//                 <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+//             </div>
+
+
+//         </div>`;
+
+
+//     centerTexts.style.display = 'none'
+//     alert('Post Sent Successfully');
+
+//     userPost.value = "";
+
+//     photoInput.value = "";
+//     selectedPostImageData = "";
+
+//     // selectedImageData = "";
+//     // photoInput.value = "";
+//     previewImg.style.display = "none";
+
+// }
+
 function addPost() {
     let userPost = document.getElementById('userPost');
     let centerTexts = document.getElementById('centerTexts');
     let postText = userPost.value.trim();
 
-    if (postText === "" && !selectedImageData) {
+    // Debug logs
+    console.log("Text:", postText);
+    console.log("Image:", selectedPostImageData);
+
+    if (postText === "" && !selectedPostImageData) {
         alert('You cannot send an empty post');
         return;
     }
 
     successfulPosts.push({
         content: postText,
-        imageUrl: selectedImageData
+        imageUrl: selectedPostImageData
     });
+
     let index = successfulPosts.length - 1;
     let post = successfulPosts[index];
 
@@ -39,12 +133,13 @@ function addPost() {
         <div class="post" id="post-${index}">
 
             <div class="profile-photo-holder">
-                <img class="profile-photo-post"
-                     src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
+                <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+                    src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+                        alt="">
             </div>
 
             <div class="post-ii">
-                <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
+                <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
 
 
                 <p class="post-text">${post.content}</p>
@@ -62,53 +157,220 @@ function addPost() {
 
                 <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
             </div>
+
         </div>`;
 
-    // if (postText == "") {
-    //     centerTexts.style.display = "none";
-    // } else{
-    //     centerTexts.style.display = "block";
-    // }
-
-    centerTexts.style.display = 'none'
+    centerTexts.style.display = 'none';
     alert('Post Sent Successfully');
 
     userPost.value = "";
-
     photoInput.value = "";
-    selectedImageData = "";
-    
+    selectedPostImageData = "";
+    previewImg.style.display = "none";
+
+    console.log("selectedPostImageData:", selectedPostImageData);
 }
 
-let selectedImageData = "";
+
+let selectedPostImageData = ""; 
+// let uploadedProfileImage = "";  
+
+let currentProfilePhoto = localStorage.getItem("profilePhoto") || ""; 
+
+// let photoInput = document.getElementById('profilePhotoInput');
 
 let photoInput = document.getElementById('photoInput');
 
+
+let previewImg = document.getElementById('profilePreviewImg');
+
+
+
+
+
+
 photoInput.addEventListener('change', function () {
-    let selectedFile = photoInput.files[0];
+    let file = photoInput.files[0];
 
-    if (!selectedFile) {
-        alert('Please add a file');
+    if (!file) {
+        alert("Please choose a file.");
         return;
     }
 
-    if (!selectedFile.type.startsWith("image/")) {
-        alert("Only image files are allowed.");
+    if (!file.type.startsWith("image/")) {
+        alert("Only image files allowed.");
         return;
     }
 
-    if (selectedFile.size < 10000) {
-        alert('Image file is too small.');
+    if (file.size < 10000) {
+        alert("Image file is too small.");
         return;
     }
 
     let reader = new FileReader();
-    reader.readAsDataURL(selectedFile);
 
-    reader.addEventListener('load', function (ev) {
-        selectedImageData = ev.target.result;
-    });
+    reader.onload = function (e) {
+        let imageDataURL = e.target.result;
+
+        selectedPostImageData = imageDataURL;
+        // uploadedProfileImage = imageDataURL;
+
+        // previewImg.src = imageDataURL;
+        // previewImg.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
 });
+
+
+// function changeProfilePhoto() {
+//     if (!uploadedProfileImage) {
+//         alert("Please select an image first.");
+//         return;
+//     }
+
+//     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+//     if (!currentUser) {
+//         alert("No user is currently logged in.");
+//         return;
+//     }
+
+//     currentUser.profilePhoto = uploadedProfileImage;
+//     selectedPostImageData = "";
+//     localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+
+//     let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
+//     let updatedUsers = allUsers.map(user => {
+//         if (user.userName === currentUser.userName) {
+//             return { ...user, profilePhoto: uploadedProfileImage };
+//         }
+//         return user;
+//     });
+//     localStorage.setItem("allUsers", JSON.stringify(updatedUsers));
+
+//     alert("Profile photo updated!");
+
+//         document.querySelector('.top-profile-photo').innerHTML = `
+//         <img class="profile-photo"
+//             src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+//             alt="">
+//     `
+// }
+
+function changeProfilePhoto() {
+    if (!uploadedProfileImage) {
+        alert("Please select an image first.");
+        return;
+    }
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) {
+        alert("No user is currently logged in.");
+        return;
+    }
+
+    // Update currentUser object
+    currentUser.profilePhoto = uploadedProfileImage;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    // Update this user's record in allUsers array
+    let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
+    let updatedUsers = allUsers.map(user => {
+        if (user.userName === currentUser.userName) {
+            return { ...user, profilePhoto: uploadedProfileImage };
+        }
+        return user;
+    });
+    localStorage.setItem("allUsers", JSON.stringify(updatedUsers));
+
+    alert("Profile photo updated!");
+
+    // Update profile photo in the UI
+    document.querySelector('.top-profile-photo').innerHTML = `
+        <img class="profile-photo"
+            src="${currentUser.profilePhoto}"
+            alt="">
+    `;
+
+    // Also update post images immediately if needed
+    document.querySelectorAll(".profile-photo-post").forEach(img => {
+        img.src = currentUser.profilePhoto;
+    });
+}
+
+
+
+let imageInput = document.getElementById('profilePhotoInput');
+let profilePreviewImg = document.getElementById('profilePreviewImg');
+let uploadedProfileImage = "";
+
+imageInput.addEventListener('change', function () {
+    let file = imageInput.files[0];
+
+    if (!file) {
+        alert("Please choose a file.");
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        alert("Only image files allowed.");
+        return;
+    }
+
+    if (file.size < 10000) {
+        alert("Image file is too small.");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+        uploadedProfileImage = e.target.result;
+        profilePreviewImg.src = uploadedProfileImage;
+        profilePreviewImg.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+});
+
+
+
+// let uploadedProfileImage = "";
+
+// let imageInput = document.getElementById('profilePhotoInput');
+// let profilePreviewImg = document.getElementById('profilePreviewImg');
+
+// imageInput.addEventListener('change', function () {
+//     let file = imageInput.files[0];
+
+//     if (!file) {
+//         alert("Please choose a file.");
+//         return;
+//     }
+
+//     if (!file.type.startsWith("image/")) {
+//         alert("Only image files allowed.");
+//         return;
+//     }
+
+//     if (file.size < 10000) {
+//         alert("Image file is too small.");
+//         return;
+//     }
+
+//     let reader = new FileReader();
+//     reader.readAsDataURL(file);
+
+//     reader.addEventListener('load', function (e) {
+//         let imageDataURL = e.target.result;
+
+//         profilePreviewImg.src = imageDataURL;
+//         profilePreviewImg.style.display = "block";
+
+//         uploadedProfileImage = imageDataURL;
+//     });
+// });
 
 
 function searchPosts() {
@@ -125,7 +387,7 @@ function searchPosts() {
             <div class="post" id="post">
                 <div class="profile-photo-holder">
                     <img class="profile-photo-post"
-                        src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
+                        src="user-solid.svg" alt="">
                 </div>
 
                 <div class="post-ii">
@@ -191,7 +453,7 @@ function deletePost(index) {
 //             <div class="post" id="post-${index}">
 //                 <div class="profile-photo-holder">
 //                     <img class="profile-photo-post"
-//                         src="https://pbs.twimg.com/profile_images/1728846511327391744/o0m4cspY_normal.jpg" alt="">
+//                         src="user-solid.svg" alt="">
 //                 </div>
 //                 <div class="post-ii">
 //                     <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
@@ -215,8 +477,12 @@ function deletePost(index) {
 
 // displaySavedPosts();
 
-let displayName = document.getElementById('displayName')
-displayName.innerHTML = `${userDisplayName.toUpperCase()}`
+// let displayName = document.getElementById('displayName')
+
+
+// displayName.innerHTML = `${userDisplayName.toUpperCase()}`
+
+
 
 
 
