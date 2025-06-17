@@ -1,6 +1,5 @@
 let mainText = document.getElementById('mainText')
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || []
-// let userDisplayName = JSON.parse(localStorage.getItem('displayName')) || []
 
 if (currentUser?.profilePhoto) {
     document.querySelectorAll(".profile-photo-post").forEach(img => {
@@ -32,7 +31,6 @@ function logOut() {
     if (confirmLogOut) {
         window.location.href = 'login.html'
     }
-    // localStorage.removeItem('displayName');
 }
 
 let modal = document.getElementsByClassName('bs-modal')
@@ -40,72 +38,6 @@ let modal = document.getElementsByClassName('bs-modal')
 let successfulPosts = [];
 
 
-// function addPost() {
-//     let userPost = document.getElementById('userPost');
-//     let centerTexts = document.getElementById('centerTexts');
-//     let postText = userPost.value.trim();
-
-//     if (postText === "" && !selectedPostImageData) {
-//         alert('You cannot send an empty post');
-//         return;
-//     }
-
-//     successfulPosts.push({
-//     content: postText,
-//     imageUrl: selectedPostImageData
-//     });
-
-
-//     let index = successfulPosts.length - 1;
-//     let post = successfulPosts[index];
-
-
-//     document.querySelector(".posts-container").innerHTML += `
-//         <div class="post" id="post-${index}">
-
-//             <div class="profile-photo-holder">
-//                 <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
-//                     src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
-//                         alt="">
-//             </div>
-
-//             <div class="post-ii">
-//                 <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
-
-
-//                 <p class="post-text">${post.content}</p>
-//                 ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
-
-//                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-//                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-//                     <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-//                 </button>
-
-//                 <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-//                     <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-//                     <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-//                 </button>
-
-//                 <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
-//             </div>
-
-
-//         </div>`;
-
-
-//     centerTexts.style.display = 'none'
-//     alert('Post Sent Successfully');
-
-//     userPost.value = "";
-
-//     photoInput.value = "";
-//     selectedPostImageData = "";
-
-//     // selectedImageData = "";
-//     // photoInput.value = "";
-//     previewImg.style.display = "none";
-
-// }
 
 function addPost() {
     let userPost = document.getElementById('userPost');
@@ -173,11 +105,11 @@ function addPost() {
 
 
 let selectedPostImageData = ""; 
-// let uploadedProfileImage = "";  
+
 
 let currentProfilePhoto = localStorage.getItem("profilePhoto") || ""; 
 
-// let photoInput = document.getElementById('profilePhotoInput');
+
 
 let photoInput = document.getElementById('photoInput');
 
@@ -213,50 +145,11 @@ photoInput.addEventListener('change', function () {
         let imageDataURL = e.target.result;
 
         selectedPostImageData = imageDataURL;
-        // uploadedProfileImage = imageDataURL;
-
-        // previewImg.src = imageDataURL;
-        // previewImg.style.display = "block";
     };
 
     reader.readAsDataURL(file);
 });
 
-
-// function changeProfilePhoto() {
-//     if (!uploadedProfileImage) {
-//         alert("Please select an image first.");
-//         return;
-//     }
-
-//     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-//     if (!currentUser) {
-//         alert("No user is currently logged in.");
-//         return;
-//     }
-
-//     currentUser.profilePhoto = uploadedProfileImage;
-//     selectedPostImageData = "";
-//     localStorage.setItem("currentUser", JSON.stringify(currentUser));
-
-
-//     let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
-//     let updatedUsers = allUsers.map(user => {
-//         if (user.userName === currentUser.userName) {
-//             return { ...user, profilePhoto: uploadedProfileImage };
-//         }
-//         return user;
-//     });
-//     localStorage.setItem("allUsers", JSON.stringify(updatedUsers));
-
-//     alert("Profile photo updated!");
-
-//         document.querySelector('.top-profile-photo').innerHTML = `
-//         <img class="profile-photo"
-//             src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
-//             alt="">
-//     `
-// }
 
 function changeProfilePhoto() {
     if (!uploadedProfileImage) {
@@ -270,11 +163,10 @@ function changeProfilePhoto() {
         return;
     }
 
-    // Update currentUser object
+    
     currentUser.profilePhoto = uploadedProfileImage;
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
-
-    // Update this user's record in allUsers array
+   
     let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
     let updatedUsers = allUsers.map(user => {
         if (user.userName === currentUser.userName) {
@@ -286,14 +178,12 @@ function changeProfilePhoto() {
 
     alert("Profile photo updated!");
 
-    // Update profile photo in the UI
     document.querySelector('.top-profile-photo').innerHTML = `
         <img class="profile-photo"
             src="${currentUser.profilePhoto}"
             alt="">
     `;
-
-    // Also update post images immediately if needed
+    
     document.querySelectorAll(".profile-photo-post").forEach(img => {
         img.src = currentUser.profilePhoto;
     });
@@ -333,44 +223,6 @@ imageInput.addEventListener('change', function () {
 
     reader.readAsDataURL(file);
 });
-
-
-
-// let uploadedProfileImage = "";
-
-// let imageInput = document.getElementById('profilePhotoInput');
-// let profilePreviewImg = document.getElementById('profilePreviewImg');
-
-// imageInput.addEventListener('change', function () {
-//     let file = imageInput.files[0];
-
-//     if (!file) {
-//         alert("Please choose a file.");
-//         return;
-//     }
-
-//     if (!file.type.startsWith("image/")) {
-//         alert("Only image files allowed.");
-//         return;
-//     }
-
-//     if (file.size < 10000) {
-//         alert("Image file is too small.");
-//         return;
-//     }
-
-//     let reader = new FileReader();
-//     reader.readAsDataURL(file);
-
-//     reader.addEventListener('load', function (e) {
-//         let imageDataURL = e.target.result;
-
-//         profilePreviewImg.src = imageDataURL;
-//         profilePreviewImg.style.display = "block";
-
-//         uploadedProfileImage = imageDataURL;
-//     });
-// });
 
 
 function searchPosts() {
@@ -445,42 +297,7 @@ function deletePost(index) {
     }
 }
 
-// function displaySavedPosts() {
-//     let container = document.querySelector(".posts-container");
 
-//     successfulPosts.forEach((postText, index) => {
-//         container.innerHTML += `
-//             <div class="post" id="post-${index}">
-//                 <div class="profile-photo-holder">
-//                     <img class="profile-photo-post"
-//                         src="user-solid.svg" alt="">
-//                 </div>
-//                 <div class="post-ii">
-//                     <p class="post-user"><span>${userDisplayName.toUpperCase()}</span>@${currentUser.userName}</p>
-//                     <p class="post-text">${postText}</p>
-
-//                     <button class="like-buttons" onclick="toggleLikes(this)">
-//                         <i class="fa-regular fa-heart heart-i" style="display: block;"></i>
-//                         <i class="fa-solid fa-heart heart-ii" style="display: none;"></i>
-//                     </button>
-
-//                     <button class="bookmark-buttons" onclick="toggleBookmark(this)">
-//                         <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-//                         <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-//                     </button>
-
-//                     <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
-//                 </div>
-//             </div>`;
-//     });
-// }
-
-// displaySavedPosts();
-
-// let displayName = document.getElementById('displayName')
-
-
-// displayName.innerHTML = `${userDisplayName.toUpperCase()}`
 
 
 
