@@ -5,57 +5,6 @@
     
 }
 
-/* nav {
-    height: 13vh;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    background: #f7f7f7a4;
-    z-index: 2;
-    border-bottom: 2px solid #181818;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 15px;
-    font-family: 'Segoe UI', sans-serif;
-    /* filter: brightness(0.8); */
-} */
-
-/* nav div{
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-}
-
-nav div i{
-    font-size: 20px;
-    border: 2px solid #181818;
-    padding: 10px;
-    border-radius: 100%;
-} */
-
-/* nav div h1{
-    font-family: 'Twitter Chirp', sans-serif;
-    font-size: 22px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 50px;
-} */
-
-/* .logout-button {
-    color: white;
-    background-color: #181818;
-    border: none;
-    padding: 9px 15px;
-    border-radius: 15px;
-}
-
-.logout-button:hover {
-    cursor: pointer;
-    filter: brightness(1.85);
-} */
-
 h1 {
     font-size: 1.8rem;
     text-align: center;
@@ -64,21 +13,18 @@ h1 {
 }
 
 .main-content {
-    /* margin-top: 75px; */
     display: flex;
 }
 
 .main-content-i {
     height: 100vh;
     width: 25%;
-    background-color: white;
-    /* background: #f7f7f7a4); */
+    background-color: white;    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-left: 2px solid #181818;
-    background-color: #f7f7f7a4;
-    /* padding: 10px 0px; */
+    background-color: #f7f7f7a4;    
 }
 
 .column-1-header{
@@ -88,7 +34,6 @@ h1 {
     padding: 10px 45px;
     border-radius: 40px;
     align-items: center;
-    /* background-color: firebrick; */
 }
 
 .column-1-header i{
@@ -98,14 +43,6 @@ h1 {
     border-radius: 100%;
 }
 
-/* .column-1-header div{
-
-} */
-
-/* #mainText{
-    font-size: 20px;
-} */
-
 .main-content-i-content-i {
     margin: auto;
     border: 2px solid #181818;
@@ -114,7 +51,6 @@ h1 {
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    /* background-color: darkblue; */
     justify-content: space-around;
 }
 
@@ -282,7 +218,7 @@ h1 {
     font-family: 'Twitter Chirp', sans-serif;
 }
 
-.modal-post-button{
+.modal-post-button, .change-profile-button{
     background-color: #181818;
     border: 1px solid #181818;
     color: #f7f7f7a4;
@@ -335,7 +271,6 @@ h1 {
 
 .center-text-i {
     font-family: 'Twitter Chirp', sans-serif;
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     font-size: 25px;
     font-weight: 600;
     color: #181818;
@@ -347,15 +282,6 @@ h1 {
     font-weight: 400;
     color: #181818;
 }
-
-/* .post-modal{
-    width : 90%;
-    margin: auto;
-    border-radius: 20px;
-    background-color: #181818;
-    color: white;
-
-} */
 
 .posts-container{
     display: flex;
@@ -387,10 +313,7 @@ h1 {
 
 .posted-photo{
     width: 570px;
-    /* height: fit-content; */
-    height: 400px;
-    /* object-fit: cover;
-    object-position: center; */
+    height: 400px;    
 }
 
 
@@ -458,8 +381,7 @@ h1 {
     background: #f7f7f7a4;
     display: flex;
     flex-direction: column;
-    position: relative;
-    /* justify-content: center; */
+    position: relative;    
 }
 
 .main-content-iii nav{
@@ -469,10 +391,6 @@ h1 {
     margin-left: 25px;
     padding: 12px ;
 }
-
-/* .ellipsis:focus-within + .logout-button {
-    display: block;
-} */
 
 .ellipsis-holder:focus-within .profile-editor {
   display: block;
@@ -498,10 +416,8 @@ h1 {
     background-color: transparent;
     color: white;
     border: none;
-    /* border: 1px solid #f7f7f7; */
     padding: 8px 10px;
-    border-radius: 20px;
-    /* background-color: darkblue; */
+    border-radius: 20px;    
 }
 
 .edit-profile-photo:hover, .logout-button:hover{
@@ -514,19 +430,13 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* .logout-button:hover {
-    cursor: pointer;
-    filter: brightness(1.85);
-} */
-
 .messages-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     height: 200px;
-    width: max-content;
-    /* border: 1px solid #181818; */
+    width: max-content;    
     position: absolute;
     top: 50%;
     left: 50%;

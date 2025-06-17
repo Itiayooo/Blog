@@ -44,7 +44,6 @@ function addPost() {
     let centerTexts = document.getElementById('centerTexts');
     let postText = userPost.value.trim();
 
-    // Debug logs
     console.log("Text:", postText);
     console.log("Image:", selectedPostImageData);
 
@@ -53,55 +52,119 @@ function addPost() {
         return;
     }
 
-    successfulPosts.push({
-        content: postText,
-        imageUrl: selectedPostImageData
-    });
+    setTimeout(() => {
+        successfulPosts.push({
+            content: postText,
+            imageUrl: selectedPostImageData
+        });
 
-    let index = successfulPosts.length - 1;
-    let post = successfulPosts[index];
+        let index = successfulPosts.length - 1;
+        let post = successfulPosts[index];
 
-    document.querySelector(".posts-container").innerHTML += `
-        <div class="post" id="post-${index}">
-
-            <div class="profile-photo-holder">
-                <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
-                    src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+        document.querySelector(".posts-container").innerHTML += `
+            <div class="post" id="post-${index}">
+                <div class="profile-photo-holder">
+                    <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+                        src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
                         alt="">
-            </div>
+                </div>
 
-            <div class="post-ii">
-                <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+                <div class="post-ii">
+                    <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+                    <p class="post-text">${post.content}</p>
+                    ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
 
+                    <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+                        <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+                        <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+                    </button>
 
-                <p class="post-text">${post.content}</p>
-                ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
+                    <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+                        <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+                        <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+                    </button>
 
-                <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-                    <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-                    <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-                </button>
+                    <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+                </div>
+            </div>`;
 
-                <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-                    <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-                    <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-                </button>
+        centerTexts.style.display = 'none';
+        alert('Post Sent Successfully');
 
-                <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
-            </div>
+        userPost.value = "";
+        photoInput.value = "";
+        selectedPostImageData = "";
+        previewImg.style.display = "none";
+        previewImg.src = "";
 
-        </div>`;
-
-    centerTexts.style.display = 'none';
-    alert('Post Sent Successfully');
-
-    userPost.value = "";
-    photoInput.value = "";
-    selectedPostImageData = "";
-    previewImg.style.display = "none";
-
-    console.log("selectedPostImageData:", selectedPostImageData);
+        console.log("selectedPostImageData:", selectedPostImageData);
+    }, 1000);
 }
+
+
+// function addPost() {
+//     let userPost = document.getElementById('userPost');
+//     let centerTexts = document.getElementById('centerTexts');
+//     let postText = userPost.value.trim();
+
+//     // Debug logs
+//     console.log("Text:", postText);
+//     console.log("Image:", selectedPostImageData);
+
+//     if (postText === "" && !selectedPostImageData) {
+//         alert('You cannot send an empty post');
+//         return;
+//     }
+
+//     successfulPosts.push({
+//         content: postText,
+//         imageUrl: selectedPostImageData
+//     });
+
+//     let index = successfulPosts.length - 1;
+//     let post = successfulPosts[index];
+
+//     document.querySelector(".posts-container").innerHTML += `
+//         <div class="post" id="post-${index}">
+
+//             <div class="profile-photo-holder">
+//                 <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+//                     src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+//                         alt="">
+//             </div>
+
+//             <div class="post-ii">
+//                 <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+
+
+//                 <p class="post-text">${post.content}</p>
+//                 ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
+
+//                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+//                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+//                     <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+//                 </button>
+
+//                 <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+//                     <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+//                     <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+//                 </button>
+
+//                 <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+//             </div>
+
+//         </div>`;
+
+//     centerTexts.style.display = 'none';
+//     alert('Post Sent Successfully');
+
+//     userPost.value = "";
+//     photoInput.value = "";
+//     selectedPostImageData = "";
+//     previewImg.style.display = "none";
+
+//     console.log("selectedPostImageData:", selectedPostImageData);
+// }
 
 
 let selectedPostImageData = ""; 
@@ -163,30 +226,48 @@ function changeProfilePhoto() {
         return;
     }
 
-    
-    currentUser.profilePhoto = uploadedProfileImage;
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
-   
-    let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
-    let updatedUsers = allUsers.map(user => {
-        if (user.userName === currentUser.userName) {
-            return { ...user, profilePhoto: uploadedProfileImage };
+    const button = document.querySelector('.modal-post-button');
+    button.textContent = "Changing Profile Photo...";
+    button.disabled = true;
+
+    setTimeout(() => {
+        currentUser.profilePhoto = uploadedProfileImage;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+        let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
+        let updatedUsers = allUsers.map(user => {
+            if (user.userName === currentUser.userName) {
+                return { ...user, profilePhoto: uploadedProfileImage };
+            }
+            return user;
+        });
+        localStorage.setItem("allUsers", JSON.stringify(updatedUsers));
+
+        alert("Profile photo updated!");
+
+        document.querySelector('.top-profile-photo').innerHTML = `
+            <img class="profile-photo"
+                src="${currentUser.profilePhoto}"
+                alt="">
+        `;
+
+        document.querySelectorAll(".profile-photo-post").forEach(img => {
+            img.src = currentUser.profilePhoto;
+        });
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModalii'));
+        if (modal) {
+            modal.hide();
         }
-        return user;
-    });
-    localStorage.setItem("allUsers", JSON.stringify(updatedUsers));
 
-    alert("Profile photo updated!");
+        previewImg.style.display = "none";
+        previewImg.src = "";
 
-    document.querySelector('.top-profile-photo').innerHTML = `
-        <img class="profile-photo"
-            src="${currentUser.profilePhoto}"
-            alt="">
-    `;
-    
-    document.querySelectorAll(".profile-photo-post").forEach(img => {
-        img.src = currentUser.profilePhoto;
-    });
+        // Reset button
+        button.textContent = "Change Profile Photo";
+        button.disabled = false;
+
+    }, 1000);
 }
 
 
