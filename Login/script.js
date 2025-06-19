@@ -35,28 +35,102 @@ function logOut() {
 
 let modal = document.getElementsByClassName('bs-modal')
 
-let successfulPosts = [];
+// let successfulPosts = [];
+// let successfulPosts = JSON.parse(localStorage.getItem("successfulPosts")) || [];
 
+let successfulPosts = JSON.parse(localStorage.getItem(`posts_${currentUser.userName}`)) || [];
 
+// let storedPosts = JSON.parse(localStorage.getItem("successfulPosts")) || [];
+// successfulPosts = storedPosts;
+displayPosts(successfulPosts);
+
+// function addPost() {
+//     let userPost = document.getElementById('userPost');
+//     let centerTexts = document.getElementById('centerTexts');
+//     let postText = userPost.value.trim();
+
+//     console.log("Text:", postText);
+//     console.log("Image:", selectedPostImageData);
+
+//     if (postText === "" && !selectedPostImageData) {
+//         alert('You cannot send an empty post');
+//         return;
+//     }
+
+//     setTimeout(() => {
+//         successfulPosts.push({
+//             content: postText,
+//             imageUrl: selectedPostImageData
+//         });
+
+//         localStorage.setItem(`posts_${currentUser.userName}`, JSON.stringify(successfulPosts));
+
+//         let index = successfulPosts.length - 1;
+//         let post = successfulPosts[index];
+
+//         document.querySelector(".posts-container").innerHTML += `
+//             <div class="post" id="post-${index}">
+//                 <div class="profile-photo-holder">
+//                     <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+//                         src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
+//                         alt="">
+//                 </div>
+
+//                 <div class="post-ii">
+//                     <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+//                     <p class="post-text">${post.content}</p>
+//                     ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
+
+//                     <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+//                         <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+//                         <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+//                     </button>
+
+//                     <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+//                         <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+//                         <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+//                     </button>
+
+//                     <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+//                 </div>
+//             </div>`;
+
+//         centerTexts.style.display = 'none';
+//         alert('Post Sent Successfully');
+
+//         userPost.value = "";
+//         photoInput.value = "";
+//         selectedPostImageData = "";
+//         previewImg.style.display = "none";
+//         previewImg.src = "";
+
+//         console.log("selectedPostImageData:", selectedPostImageData);
+//     }, 1000);
+
+//     // localStorage.setItem("successfulPosts", JSON.stringify(successfulPosts));
+// }
 
 function addPost() {
     let userPost = document.getElementById('userPost');
     let centerTexts = document.getElementById('centerTexts');
     let postText = userPost.value.trim();
 
-    console.log("Text:", postText);
-    console.log("Image:", selectedPostImageData);
-
     if (postText === "" && !selectedPostImageData) {
         alert('You cannot send an empty post');
         return;
     }
+
+    const postButton = document.querySelector('.modal-post-button');
+    postButton.textContent = "Posting...";
+    postButton.disabled = true;
 
     setTimeout(() => {
         successfulPosts.push({
             content: postText,
             imageUrl: selectedPostImageData
         });
+
+        localStorage.setItem(`posts_${currentUser.userName}`, JSON.stringify(successfulPosts));
 
         let index = successfulPosts.length - 1;
         let post = successfulPosts[index];
@@ -65,8 +139,7 @@ function addPost() {
             <div class="post" id="post-${index}">
                 <div class="profile-photo-holder">
                     <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
-                        src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
-                        alt="">
+                        src="${currentUser?.profilePhoto || 'user-solid.svg'}" alt="">
                 </div>
 
                 <div class="post-ii">
@@ -97,74 +170,52 @@ function addPost() {
         previewImg.style.display = "none";
         previewImg.src = "";
 
-        console.log("selectedPostImageData:", selectedPostImageData);
+        // Close modal after 1s
+        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+        if (modal) modal.hide();
+
+        // Reset button
+        postButton.textContent = "Post";
+        postButton.disabled = false;
+
     }, 1000);
 }
 
 
-// function addPost() {
-//     let userPost = document.getElementById('userPost');
-//     let centerTexts = document.getElementById('centerTexts');
-//     let postText = userPost.value.trim();
 
-//     // Debug logs
-//     console.log("Text:", postText);
-//     console.log("Image:", selectedPostImageData);
+function displayPosts(posts) {
+    let container = document.querySelector(".posts-container");
+    container.innerHTML = "";
 
-//     if (postText === "" && !selectedPostImageData) {
-//         alert('You cannot send an empty post');
-//         return;
-//     }
+    posts.forEach((post, index) => {
+        container.innerHTML += `
+            <div class="post" id="post-${index}">
+                <div class="profile-photo-holder">
+                    <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
+                        src="${currentUser.profilePhoto || 'user-solid.svg'}" alt="">
+                </div>
 
-//     successfulPosts.push({
-//         content: postText,
-//         imageUrl: selectedPostImageData
-//     });
+                <div class="post-ii">
+                    <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+                    <p class="post-text">${post.content}</p>
+                    ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
 
-//     let index = successfulPosts.length - 1;
-//     let post = successfulPosts[index];
+                    <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+                        <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+                        <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+                    </button>
 
-//     document.querySelector(".posts-container").innerHTML += `
-//         <div class="post" id="post-${index}">
+                    <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+                        <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+                        <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+                    </button>
 
-//             <div class="profile-photo-holder">
-//                 <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
-//                     src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
-//                         alt="">
-//             </div>
+                    <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+                </div>
+            </div>`;
+    });
+}
 
-//             <div class="post-ii">
-//                 <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
-
-
-//                 <p class="post-text">${post.content}</p>
-//                 ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
-
-//                 <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-//                     <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-//                     <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-//                 </button>
-
-//                 <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-//                     <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-//                     <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-//                 </button>
-
-//                 <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
-//             </div>
-
-//         </div>`;
-
-//     centerTexts.style.display = 'none';
-//     alert('Post Sent Successfully');
-
-//     userPost.value = "";
-//     photoInput.value = "";
-//     selectedPostImageData = "";
-//     previewImg.style.display = "none";
-
-//     console.log("selectedPostImageData:", selectedPostImageData);
-// }
 
 
 let selectedPostImageData = ""; 
@@ -370,11 +421,20 @@ function toggleBookmark(button) {
     }
 }
 
+// function deletePost(index) {
+//     let confirmDelete = confirm("Are you sure you want to delete this post? This action cannot be undone");
+//     if (confirmDelete) {
+//         successfulPosts.splice(index, 1);
+//         document.getElementById(`post-${index}`).remove();
+//     }
+// }
+
 function deletePost(index) {
-    let confirmDelete = confirm("Are you sure you want to delete this post? This action cannot be undone");
+    let confirmDelete = confirm("Are you sure you want to delete this post?");
     if (confirmDelete) {
         successfulPosts.splice(index, 1);
-        document.getElementById(`post-${index}`).remove();
+        localStorage.setItem(`posts_${currentUser.userName}`, JSON.stringify(successfulPosts));
+        displayPosts(successfulPosts);
     }
 }
 

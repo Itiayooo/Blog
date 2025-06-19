@@ -226,7 +226,7 @@
     createBtn.disabled = true;
     let originalText = createBtn.textContent;
     createBtn.textContent = "Creating account...";
-    createBtn.style.filter = "brightness(0.2)"; // dim the button immediately
+    createBtn.style.filter = "brightness(0.2)";
 
     setTimeout(() => {
         let firstName = document.getElementById('firstName').value.trim();
@@ -293,7 +293,7 @@
                 localStorage.setItem('allUsers', JSON.stringify(users));
                 localStorage.setItem('displayName', JSON.stringify(firstName));
                 alert('Account Created Successfully');
-                createBtn.style.filter = "brightness(1)"; // reset brightness
+                createBtn.style.filter = "brightness(1)";
                 window.location.href = 'login.html';
             }
         }
