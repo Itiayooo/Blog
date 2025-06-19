@@ -35,80 +35,11 @@ function logOut() {
 
 let modal = document.getElementsByClassName('bs-modal')
 
-// let successfulPosts = [];
-// let successfulPosts = JSON.parse(localStorage.getItem("successfulPosts")) || [];
-
 let successfulPosts = JSON.parse(localStorage.getItem(`posts_${currentUser.userName}`)) || [];
 
-// let storedPosts = JSON.parse(localStorage.getItem("successfulPosts")) || [];
-// successfulPosts = storedPosts;
 displayPosts(successfulPosts);
 
-// function addPost() {
-//     let userPost = document.getElementById('userPost');
-//     let centerTexts = document.getElementById('centerTexts');
-//     let postText = userPost.value.trim();
 
-//     console.log("Text:", postText);
-//     console.log("Image:", selectedPostImageData);
-
-//     if (postText === "" && !selectedPostImageData) {
-//         alert('You cannot send an empty post');
-//         return;
-//     }
-
-//     setTimeout(() => {
-//         successfulPosts.push({
-//             content: postText,
-//             imageUrl: selectedPostImageData
-//         });
-
-//         localStorage.setItem(`posts_${currentUser.userName}`, JSON.stringify(successfulPosts));
-
-//         let index = successfulPosts.length - 1;
-//         let post = successfulPosts[index];
-
-//         document.querySelector(".posts-container").innerHTML += `
-//             <div class="post" id="post-${index}">
-//                 <div class="profile-photo-holder">
-//                     <img class="profile-photo-post" style="width: 30px; height: 30px; border-radius: 100%;"
-//                         src="${JSON.parse(localStorage.getItem('currentUser'))?.profilePhoto || 'user-solid.svg'}"
-//                         alt="">
-//                 </div>
-
-//                 <div class="post-ii">
-//                     <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
-//                     <p class="post-text">${post.content}</p>
-//                     ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
-
-//                     <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-//                         <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-//                         <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-//                     </button>
-
-//                     <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-//                         <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-//                         <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-//                     </button>
-
-//                     <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
-//                 </div>
-//             </div>`;
-
-//         centerTexts.style.display = 'none';
-//         alert('Post Sent Successfully');
-
-//         userPost.value = "";
-//         photoInput.value = "";
-//         selectedPostImageData = "";
-//         previewImg.style.display = "none";
-//         previewImg.src = "";
-
-//         console.log("selectedPostImageData:", selectedPostImageData);
-//     }, 1000);
-
-//     // localStorage.setItem("successfulPosts", JSON.stringify(successfulPosts));
-// }
 
 function addPost() {
     let userPost = document.getElementById('userPost');
@@ -179,6 +110,9 @@ function addPost() {
         postButton.disabled = false;
 
     }, 1000);
+
+    console.log(successfulPosts);
+    
 }
 
 
@@ -362,38 +296,72 @@ function searchPosts() {
     let container = document.querySelector(".posts-container");
 
 
-    let matchedPosts = successfulPosts.filter(text => text.toLowerCase().includes(input));
+    
+    let matchedPosts = successfulPosts.filter(post => post.content.toLowerCase().includes(input));
+
 
     container.innerHTML = "";
 
-    matchedPosts.forEach(text => {
-        container.innerHTML += `
-            <div class="post" id="post">
-                <div class="profile-photo-holder">
-                    <img class="profile-photo-post"
-                        src="user-solid.svg" alt="">
-                </div>
+//     matchedPosts.forEach(text => {
+//         container.innerHTML += `
+//             <div class="post" id="post">
+//                 <div class="profile-photo-holder">
+//                     <img class="profile-photo-post"
+//                         src="user-solid.svg" alt="">
+//                 </div>
 
-                <div class="post-ii">
-                    <p class="post-user">@${currentUser.userName}</p>
-                    <p class="post-text">${text}</p>
+//                 <div class="post-ii">
+//                     <p class="post-user">@${currentUser.userName}</p>
+//                     <p class="post-text">${text}</p>
 
-                    <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
-                        <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
-                        <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
-                    </button>
+//                     <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+//                         <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+//                         <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+//                     </button>
 
-                    <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
-                        <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
-                        <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
-                    </button>
+//                     <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+//                         <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+//                         <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+//                     </button>
 
-                    <i class="fa-solid fa-trash" onclick=deletePost()></i>
-                </div>
+//                     <i class="fa-solid fa-trash" onclick=deletePost()></i>
+//                 </div>
+//             </div>
+//         `;
+//     });
+
+matchedPosts.forEach((post, index) => {
+    container.innerHTML += `
+        <div class="post" id="post-${index}">
+            <div class="profile-photo-holder">
+                <img class="profile-photo-post"
+                    src="${currentUser.profilePhoto || 'user-solid.svg'}" alt="">
             </div>
-        `;
-    });
+
+            <div class="post-ii">
+                <p class="post-user"><span>${currentUser.firstName.toUpperCase()}</span>@${currentUser.userName}</p>
+                <p class="post-text">${post.content}</p>
+                ${post.imageUrl ? `<img class="posted-photo" src="${post.imageUrl}" class="post-photo">` : ""}
+
+                <button class="like-buttons" tabindex="0" onclick="toggleLikes(this)">
+                    <i class="fa-regular fa-heart heart-i" style="color: #181818; display: block;"></i>
+                    <i class="fa-solid fa-heart heart-ii" style="color: #181818; display: none;"></i>
+                </button>
+
+                <button class="bookmark-buttons" tabindex="0" onclick="toggleBookmark(this)">
+                    <i class="fa-regular fa-bookmark bookmark-i" style="display:block;"></i>
+                    <i class="fa-solid fa-bookmark bookmark-ii" style="display:none;"></i>
+                </button>
+
+                <i class="fa-solid fa-trash" onclick="deletePost(${index})"></i>
+            </div>
+        </div>
+    `;
+});
+
 }
+
+
 
 function toggleLikes(button) {
     let hearti = button.querySelector('.heart-i');
